@@ -4,6 +4,7 @@ import WhyWebsite from "@/components/WhyWebsite";
 import WhyElyra from "@/components/WhyElyra";
 import HowItWorks from "@/components/HowItWorks";
 import Portfolio from "@/components/Portfolio";
+import RentOrBuy from "@/components/RentOrBuy";
 import Pricing from "@/components/Pricing";
 import About from "@/components/About";
 import FinalCTA from "@/components/FinalCTA";
@@ -23,6 +24,7 @@ const Index = () => {
         <WhyElyra />
         <HowItWorks />
         <Portfolio />
+        <RentOrBuy />
         <Pricing />
         <About />
         <FinalCTA />

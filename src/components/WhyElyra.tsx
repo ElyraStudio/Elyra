@@ -4,7 +4,7 @@ import { Monitor, Zap, DollarSign, Headphones } from "lucide-react";
 const features = [
   { icon: Monitor, title: "Sites modernos", text: "Design profissional adaptado para celular e computador." },
   { icon: Zap, title: "Entrega rápida", text: "Seu site pode ficar pronto em poucos dias." },
-  { icon: DollarSign, title: "Sem investimento alto", text: "Em vez de pagar milhares por um site, você paga apenas uma mensalidade." },
+  { icon: DollarSign, title: "Flexibilidade", text: "Alugue por uma mensalidade ou compre de uma vez — você escolhe." },
   { icon: Headphones, title: "Suporte incluído", text: "Atualizações e suporte técnico sempre que precisar." },
 ];
 

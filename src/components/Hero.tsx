@@ -6,7 +6,7 @@ import heroMockup from "@/assets/hero-mockup.png";
 const benefits = [
   "Site profissional pronto em poucos dias",
   "Funciona perfeitamente no celular",
-  "Pagamento mensal acessível",
+  "Alugue ou compre — você escolhe",
   "Suporte e atualizações incluídos",
 ];
 
@@ -21,10 +21,10 @@ const Hero = () => {
             transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-6">
-              Tenha um site profissional para seu negócio por menos de um jantar por mês.
+              Seu negócio merece um site profissional.
             </h1>
             <p className="text-lg text-muted-foreground max-w-[540px] mb-8 leading-relaxed">
-              Com a Elyra, você tem um site moderno, rápido e otimizado para atrair clientes — sem precisar pagar milhares de reais por desenvolvimento.
+              Com a Elyra, você tem um site moderno, rápido e otimizado para atrair clientes — alugue por uma mensalidade acessível ou compre de uma vez.
             </p>
             <ul className="space-y-3 mb-10">
               {benefits.map((b) => (

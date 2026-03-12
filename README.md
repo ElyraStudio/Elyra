@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+# Elyra - Landing Page para Pequenos Negócios
 
-## Project info
+![Elyra](https://user-images.githubusercontent.com/SEU_AVATAR/elyra-banner.png)  
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Elyra é uma landing page moderna para pequenos negócios, criada com React, Tailwind CSS e Framer Motion. O site é responsivo, rápido e otimizado para conversão, permitindo que empresas apresentem seus serviços de forma profissional e atrativa.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🌟 Funcionalidades
 
-**Use Lovable**
+- **Seção Hero animada** com texto e imagem flutuante
+- **Benefícios destacados** em lista clara
+- **Seção How It Works** com linha animada em zig-zag
+- **Seção About** minimalista em tela cheia
+- **Final CTA** com botão de ação e aba de vídeo demonstrativo
+- Layout totalmente **responsivo** (desktop, tablet e mobile)
+- Animações suaves com **Framer Motion**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🎨 Tecnologias
 
-**Use your preferred IDE**
+- [React](https://reactjs.org/)  
+- [Tailwind CSS](https://tailwindcss.com/)  
+- [Framer Motion](https://www.framer.com/motion/)  
+- [Lucide Icons](https://lucide.dev/)  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Como rodar localmente
 
-Follow these steps:
+1. Clone o repositório:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+bash
+git clone https://github.com/ElyraStudio/Elyra.git
+cd Elyra
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+Instale as dependências:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
+# ou
+yarn
+
+Rode o projeto:
+
 npm run dev
-```
+# ou
+yarn dev
 
-**Edit a file directly in GitHub**
+Abra http://localhost:5173
+ no navegador para visualizar.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+📹 Demonstração do Vídeo
 
-**Use GitHub Codespaces**
+O Final CTA possui uma aba com vídeo MP4 integrado para mostrar um exemplo de site em ação.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+📂 Estrutura do projeto
+src/
+├─ assets/        # Imagens, vídeos e ícones
+├─ components/    # Componentes reutilizáveis
+├─ pages/         # Páginas do site
+└─ App.tsx        # Roteamento principal
+📌 Contato
 
-## What technologies are used for this project?
+Se você deseja criar seu site com a Elyra ou conhecer mais sobre o projeto:
 
-This project is built with:
+WhatsApp: Clique aqui
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+GitHub: ElyraStudio
 
-## How can I deploy this project?
+⚡ Licença
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Este projeto está sob a licença MIT.

@@ -24,30 +24,37 @@ const sites = [
 ];
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } };
+
 const item = {
   hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
+  },
 };
 
 const Portfolio = () => {
   return (
-    <section className="section-spacing">
+    <section id="exemplos" className="py-16 md:py-24">
       <div className="container-main">
+
         <motion.h2
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-4"
+          transition={{ duration: 0.5 }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground text-center mb-4"
         >
           Exemplos de sites criados pela Elyra
         </motion.h2>
+
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
-          className="text-muted-foreground text-center mb-12 text-lg"
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="text-muted-foreground text-center mb-10 md:mb-12 text-base md:text-lg max-w-2xl mx-auto"
         >
           Veja sites reais que criamos para nossos clientes.
         </motion.p>
@@ -57,24 +64,28 @@ const Portfolio = () => {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           {sites.map((site) => (
             <motion.div
               key={site.name}
               variants={item}
-              className="glass-card p-3 group"
+              className="glass-card p-3 md:p-4 group"
             >
               <div className="overflow-hidden rounded-xl mb-4">
                 <img
                   src={site.image}
                   alt={`Preview do site: ${site.name}`}
-                  className="w-full aspect-video object-cover object-top rounded-xl transition-transform duration-500 group-hover:scale-105"
+                  className="w-full aspect-video object-cover object-top rounded-xl transition-transform duration-500 md:group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
+
               <div className="px-2 pb-2">
-                <h3 className="text-lg font-bold text-foreground mb-3">{site.name}</h3>
+                <h3 className="text-lg md:text-xl font-bold text-foreground mb-3">
+                  {site.name}
+                </h3>
+
                 <Button
                   variant="hero-secondary"
                   size="sm"
@@ -82,17 +93,20 @@ const Portfolio = () => {
                   asChild
                 >
                   <a href={site.url} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4" />
+                    <ExternalLink className="h-4 w-4 mr-2" />
                     Ver site
                   </a>
                 </Button>
               </div>
+
             </motion.div>
           ))}
         </motion.div>
+
       </div>
     </section>
   );
 };
 
 export default Portfolio;
+

@@ -33,7 +33,7 @@ const Footer = () => {
         </div>
         <div className="border-t pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">© 2026 Elyra. Todos os direitos reservados.</p>
-          <p className="text-xs text-muted-foreground">CNPJ: 00.000.000/0001-00</p>
+          <p className="text-xs text-muted-foreground">CNPJ: 65.308.302/0001-77</p>
         </div>
       </div>
     </footer>

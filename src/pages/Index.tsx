@@ -1,13 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import WhyWebsite from "@/components/WhyWebsite";
+import WhyElyra from "@/components/WhyElyra";
+import HowItWorks from "@/components/HowItWorks";
+import Portfolio from "@/components/Portfolio";
+import Pricing from "@/components/Pricing";
+import About from "@/components/About";
+import FinalCTA from "@/components/FinalCTA";
+import Footer from "@/components/Footer";
+import IceMountainBg from "@/components/IceMountainBg";
+import SnowParticles from "@/components/SnowParticles";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <IceMountainBg />
+      <SnowParticles />
+      <Navbar />
+      <main>
+        <Hero />
+        <WhyWebsite />
+        <WhyElyra />
+        <HowItWorks />
+        <Portfolio />
+        <Pricing />
+        <About />
+        <FinalCTA />
+      </main>
+      <Footer />
+    </>
   );
 };
 

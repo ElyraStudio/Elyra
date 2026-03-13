@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-import heroVideo from "@/assets/hero-mockup1.mp4"; // seu MP4
+import heroVideo from "@/assets/hero-mockup1.mp4";
 
 const FinalCTA = () => {
   return (
@@ -11,7 +11,7 @@ const FinalCTA = () => {
     >
       <div className="container-main md:max-w-3xl relative z-10">
 
-        {/* fluxo azul */}
+        {/* fluxo azul animado */}
         <motion.div
           className="absolute inset-0 -z-10 blur-3xl opacity-40"
           animate={{
@@ -46,18 +46,30 @@ const FinalCTA = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button variant="hero" size="lg">
-              Criar meu site
-            </Button>
 
-            <Button variant="hero-secondary" size="lg">
-              <MessageCircle className="h-5 w-5" />
-              Falar no WhatsApp
-            </Button>
+            <Button
+  variant="hero"
+  size="lg"
+  onClick={handlePlanos}
+>
+  Criar meu site
+</Button>
+            {/* Botão WhatsApp funcionando */}
+            <a
+              href="https://wa.me/5551996747657?text=Olá,%20vim%20pelo%20site%20da%20Elyra%20e%20gostaria%20de%20criar%20um%20site"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button variant="hero-secondary" size="lg">
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Falar no WhatsApp
+              </Button>
+            </a>
+
           </div>
         </motion.div>
 
-        {/* Aba de vídeo abaixo da caixa */}
+        {/* Vídeo abaixo */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,6 +90,11 @@ const FinalCTA = () => {
       </div>
     </section>
   );
+};
+const handlePlanos = () => {
+  document
+    .getElementById("planos")
+    ?.scrollIntoView({ behavior: "smooth" });
 };
 
 export default FinalCTA;

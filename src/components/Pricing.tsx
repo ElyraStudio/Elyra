@@ -43,7 +43,7 @@ const plans = [
     description: "Dominando as buscas locais no Google.",
     oldPrice: "R$1100",
     price: "R$900",
-    monthly: "ou 12x de R$89",
+    monthly: "ou R$169 mensais",
     featured: true,
     badge: "Ouro: Mais escolhido",
     cta: "Quero dominar o mercado",
@@ -61,7 +61,7 @@ const plans = [
     description: "Autoridade máxima no seu segmento.",
     oldPrice: "R$1799",
     price: "R$1490",
-    monthly: "ou 12x de R$147",
+    monthly: "ou R$ 199 mensais",
     cta: "Quero crescer",
     features: [
       "Tudo do Presença Digital",

@@ -12,7 +12,7 @@ const benefits = [
 
 const Hero = () => {
   const handleExamples = () => {
-    document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("exemplos")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleWhatsApp = () => {

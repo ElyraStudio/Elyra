@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 
-interface Snowflake {
+interface Particle {
   x: number;
   y: number;
   r: number;
-  speed: number;
+  vx: number;
+  vy: number;
   opacity: number;
-  wind: number;
 }
 
 const SnowParticles = () => {
@@ -20,64 +20,76 @@ const SnowParticles = () => {
     if (!ctx) return;
 
     let animationId: number;
-    let snowflakes: Snowflake[] = [];
+    let particles: Particle[] = [];
 
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
 
-    const createSnowflakes = () => {
-      const count = window.innerWidth < 768 ? 30 : 60;
-      snowflakes = Array.from({ length: count }, () => ({
+    const createParticles = () => {
+      const isMobile = window.innerWidth < 768;
+      const count = isMobile ? 40 : 100;
+      particles = Array.from({ length: count }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 0.5,
-        speed: Math.random() * 0.5 + 0.2,
-        opacity: Math.random() * 0.3 + 0.1,
-        wind: Math.random() * 0.3 - 0.15,
+        // Algumas partículas maiores para criar profundidade
+        r: Math.random() * 1.5 + (Math.random() > 0.9 ? 1 : 0.2),
+        vx: (Math.random() - 0.5) * 0.3, // Movimento lateral sutil
+        vy: Math.random() * 0.5 + 0.1,   // Velocidade de descida
+        opacity: Math.random() * 0.5 + 0.1,
       }));
     };
 
     const animate = () => {
+      // Background levemente transparente para criar um rastro mínimo (motion blur)
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      snowflakes.forEach((flake) => {
+      particles.forEach((p) => {
         ctx.beginPath();
-        ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        
+        // Cor primária sutil (azul/celeste) misturada ao branco
+        ctx.fillStyle = `rgba(200, 230, 255, ${p.opacity})`;
         ctx.fill();
 
-        flake.y += flake.speed;
-        flake.x += flake.wind;
+        // Movimento
+        p.y += p.vy;
+        p.x += p.vx;
 
-        if (flake.y > canvas.height) {
-          flake.y = -5;
-          flake.x = Math.random() * canvas.width;
+        // Reposicionamento (Seamless Loop)
+        if (p.y > canvas.height) {
+          p.y = -10;
+          p.x = Math.random() * canvas.width;
         }
-        if (flake.x > canvas.width) flake.x = 0;
-        if (flake.x < 0) flake.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.x < 0) p.x = canvas.width;
       });
 
       animationId = requestAnimationFrame(animate);
     };
 
     resize();
-    createSnowflakes();
+    createParticles();
     animate();
 
-    window.addEventListener("resize", () => {
+    const handleResize = () => {
       resize();
-      createSnowflakes();
-    });
+      createParticles();
+    };
 
-    return () => cancelAnimationFrame(animationId);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 -z-[5]"
+      className="pointer-events-none fixed inset-0 -z-[1] opacity-60"
       aria-hidden="true"
     />
   );

@@ -1,91 +1,155 @@
 import { motion } from "framer-motion";
-import { RefreshCw, ShoppingBag, Check } from "lucide-react";
+import { RefreshCw, ShoppingBag, Check, ArrowRight } from "lucide-react";
 
 const plans = [
   {
     icon: RefreshCw,
-    title: "Alugar um site",
-    subtitle: "Indicado para quem quer começar rápido.",
-    benefits: [
-      "Mensalidade acessível",
-      "Sem investimento alto inicial",
-      "Suporte contínuo",
-      "Atualizações incluídas",
+    title: "Modelo de Assinatura",
+    subtitle: "Agilidade & Baixo Risco",
+    description:
+      "Ideal para quem quer validar o negócio no digital sem descapitalizar o caixa agora.",
+    pros: [
+      "Baixo investimento inicial",
+      "Site no ar em tempo recorde",
+      "Suporte e Manutenção inclusos",
+      "Hospedagem de alta performance",
     ],
+    cons: "O site é um serviço prestado.",
+    highlight: false,
   },
   {
     icon: ShoppingBag,
-    title: "Comprar um site",
-    subtitle: "Indicado para quem quer ter o site como propriedade.",
-    benefits: [
-      "Pagamento único",
-      "Site totalmente seu",
-      "Liberdade total de uso",
-      "Ideal para empresas maiores",
+    title: "Ativo Digital Próprio",
+    subtitle: "Liberdade & Patrimônio",
+    description:
+      "Ideal para empresas que buscam consolidar marca e ter controle total sobre seu patrimônio digital.",
+    pros: [
+      "Propriedade vitalícia do código",
+      "Sem mensalidade de serviço",
+      "Liberdade total para expansão",
+      "Valorização do seu negócio",
     ],
+    cons: "Investimento inicial conforme projeto.",
+    highlight: true,
   },
 ];
 
-const container = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } };
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const } },
-};
+const RentOrBuy = () => {
+  // Função para scroll suave até a seção de preços
+  const scrollToPricing = () => {
+    const pricingSection = document.getElementById("planos");
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-const RentOrBuy = () => (
-  <section className="section-spacing">
-    <div className="container-main">
-      <motion.h2
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        className="text-3xl sm:text-4xl font-bold text-foreground text-center mb-4"
-      >
-        Alugar ou comprar um site: qual é melhor para você?
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
-        className="text-muted-foreground text-center mb-12 text-lg max-w-2xl mx-auto"
-      >
-        Escolha o modelo que faz mais sentido para o momento do seu negócio.
-      </motion.p>
+  return (
+    <section className="py-24 md:py-32 bg-black relative">
+      {/* Decoração de fundo */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 blur-[150px] rounded-full pointer-events-none" />
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-100px" }}
-        className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-      >
-        {plans.map((plan) => (
-          <motion.div
-            key={plan.title}
-            variants={item}
-            className="glass-card relative overflow-hidden"
+      <div className="container-main px-6 relative text-white">
+        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-extrabold tracking-tighter mb-6"
           >
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/40 to-primary/10" />
-            <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-secondary mb-5">
-              <plan.icon className="h-6 w-6 text-secondary-foreground" />
-            </div>
-            <h3 className="text-2xl font-bold text-foreground mb-2">{plan.title}</h3>
-            <p className="text-muted-foreground mb-6">{plan.subtitle}</p>
-            <ul className="space-y-3">
-              {plan.benefits.map((b) => (
-                <li key={b} className="flex items-center gap-3 text-sm text-foreground">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
+            Qual o melhor caminho para <br />
+            <span className="text-white/40 italic font-light">o seu momento atual?</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-zinc-400 text-lg font-light leading-relaxed"
+          >
+            A escolha entre alugar ou comprar não é apenas sobre preço, mas sobre a velocidade que você precisa e o controle que você deseja ter.
+          </motion.p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {plans.map((plan, idx) => (
+            <motion.div
+              key={plan.title}
+              initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`relative group p-1 rounded-[40px] transition-all duration-500 ${
+                plan.highlight 
+                  ? "bg-gradient-to-b from-primary/20 to-transparent" 
+                  : "bg-white/5"
+              }`}
+            >
+              <div className="bg-zinc-950 rounded-[38px] p-8 md:p-12 h-full flex flex-col border border-white/5 group-hover:border-primary/20 transition-all">
+                
+                {/* Header do Card */}
+                <div className="flex items-start justify-between mb-10 text-white">
+                  <div>
+                    <div className={`h-14 w-14 rounded-2xl flex items-center justify-center mb-6 ${
+                      plan.highlight ? "bg-primary text-black" : "bg-white/5 text-primary"
+                    }`}>
+                      <plan.icon className="h-7 w-7" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">{plan.title}</h3>
+                    <p className="text-primary text-sm font-black uppercase tracking-widest">{plan.subtitle}</p>
+                  </div>
+                </div>
+
+                {/* Descrição */}
+                <p className="text-zinc-400 text-lg font-light leading-relaxed mb-10">
+                  {plan.description}
+                </p>
+
+                {/* Lista de Prós */}
+                <div className="space-y-4 mb-12 flex-grow">
+                  {plan.pros.map((pro) => (
+                    <div key={pro} className="flex items-center gap-3 text-zinc-300">
+                      <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Check className="h-3 w-3 text-primary" />
+                      </div>
+                      <span className="text-base font-light">{pro}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Nota de rodapé */}
+                <div className="pt-8 border-t border-white/5">
+                  <p className="text-xs text-zinc-500 uppercase tracking-tighter">Nota importante:</p>
+                  <p className="text-sm text-zinc-400 italic mt-1">{plan.cons}</p>
+                </div>
+
+                {/* CTA - AGORA LEVA PARA O PRICING */}
+                <button 
+                  onClick={scrollToPricing}
+                  className="mt-8 flex items-center gap-2 text-white font-bold group/btn w-fit hover:text-primary transition-colors"
+                >
+                  Ver planos e preços <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform text-primary" />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Fechamento Estratégico */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mt-20 text-center"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-zinc-400 text-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            Consultoria gratuita disponível para te ajudar a decidir.
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 export default RentOrBuy;

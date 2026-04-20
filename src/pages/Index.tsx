@@ -9,13 +9,11 @@ import Pricing from "@/components/Pricing";
 import About from "@/components/About";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
-import IceMountainBg from "@/components/IceMountainBg";
 import SnowParticles from "@/components/SnowParticles";
 
 const Index = () => {
   return (
     <>
-      <IceMountainBg />
       <SnowParticles />
       <Navbar />
       <main>

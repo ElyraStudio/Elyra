@@ -138,58 +138,59 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
     <motion.div
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      animate={{ 
+      animate={{
         backgroundColor: isHovered ? "rgba(24, 24, 27, 0.95)" : plan.featured ? "rgba(24, 24, 27, 0.5)" : "rgba(255, 255, 255, 0.02)",
         borderColor: isHovered ? "rgba(255, 255, 255, 0.2)" : plan.featured ? "rgba(var(--primary-rgb), 0.4)" : "rgba(255, 255, 255, 0.05)",
         y: isHovered ? -8 : 0
       }}
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`relative p-8 rounded-[32px] border flex flex-col cursor-pointer select-none w-full
+      className={`relative p-4 md:p-8 rounded-[24px] md:rounded-[32px] border flex flex-col cursor-pointer select-none w-full
         ${plan.featured ? "shadow-[0_0_50px_-12px_rgba(var(--primary-rgb),0.3)]" : ""}
       `}
     >
       {plan.badge && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary px-4 py-1 rounded-full shadow-[0_0_20px_rgba(var(--primary-rgb),0.5)] z-20">
-          <span className="text-[10px] font-black uppercase tracking-widest text-black">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary px-3 py-1 rounded-full shadow-[0_0_20px_rgba(var(--primary-rgb),0.5)] z-20 whitespace-nowrap">
+          <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-black">
             {plan.badge}
           </span>
         </div>
       )}
 
-      <div className="mb-8">
-        <h3 className="text-xl font-bold text-white mb-1">{plan.name}</h3>
-        <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em]">{plan.type}</p>
+      <div className="mb-4 md:mb-8">
+        <h3 className="text-base md:text-xl font-bold text-white mb-1 break-words">{plan.name}</h3>
+        <p className="text-[9px] md:text-[10px] text-primary font-black uppercase tracking-[0.15em] md:tracking-[0.2em]">{plan.type}</p>
       </div>
 
-      <div className="mb-8 h-24 flex flex-col justify-end text-white">
-        {plan.oldPrice && <span className="line-through text-xs text-zinc-600 mb-1">{plan.oldPrice}</span>}
-        <div className="flex items-baseline gap-1">
-          <span className="text-4xl font-black">{plan.price}</span>
-          {plan.period && <span className="text-sm text-zinc-500 font-light">{plan.period}</span>}
+      <div className="mb-6 md:mb-8 h-20 md:h-24 flex flex-col justify-end text-white">
+        {plan.oldPrice && <span className="line-through text-[10px] md:text-xs text-zinc-600 mb-1">{plan.oldPrice}</span>}
+        <div className="flex items-baseline gap-0.5 md:gap-1 flex-wrap">
+          <span className="text-2xl md:text-4xl font-black">{plan.price}</span>
+          {plan.period && <span className="text-xs md:text-sm text-zinc-500 font-light">{plan.period}</span>}
         </div>
-        {plan.monthly && <p className="text-[10px] text-primary/80 mt-2 font-bold uppercase tracking-tighter">{plan.monthly}</p>}
+        {plan.monthly && <p className="text-[9px] md:text-[10px] text-primary/80 mt-1 md:mt-2 font-bold uppercase tracking-tighter">{plan.monthly}</p>}
       </div>
 
-      <ul className="space-y-4 mb-8 flex-grow">
+      <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 flex-grow">
         {plan.features.map((f: any, i: number) => {
           const isText = typeof f === "string";
           const isIncluded = isText || f.included;
           return (
-            <li key={`feat-${plan.id}-${i}`} className={`flex gap-3 text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
-              <Check className={`w-4 h-4 shrink-0 mt-0.5 ${isIncluded ? "text-primary" : "text-zinc-800"}`} />
-              <span className="text-zinc-300 font-light tracking-tight">{isText ? f : f.text}</span>
+            <li key={`feat-${plan.id}-${i}`} className={`flex gap-2 md:gap-3 text-xs md:text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
+              <Check className={`w-3.5 h-3.5 md:w-4 md:h-4 shrink-0 mt-0.5 ${isIncluded ? "text-primary" : "text-zinc-800"}`} />
+              <span className="text-zinc-300 font-light tracking-tight line-clamp-3 md:line-clamp-none">{isText ? f : f.text}</span>
             </li>
           );
         })}
       </ul>
 
-      <motion.div 
+      <motion.div
         style={{ overflow: "hidden" }}
-        animate={{ 
-          height: isHovered ? "auto" : 0, 
-          opacity: isHovered ? 1 : 0 
+        animate={{
+          height: isHovered ? "auto" : 0,
+          opacity: isHovered ? 1 : 0
         }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
+        className="hidden md:block" // Esconde os detalhes dinâmicos no mobile para evitar quebras gigantes de altura na grade 2x2
       >
         <div className="pt-6 border-t border-white/5 mb-6">
           {plan.details.map((d: string, i: number) => (
@@ -201,8 +202,8 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
         </div>
       </motion.div>
 
-      <Button 
-        className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 mt-6 ${
+      <Button
+        className={`w-full h-10 md:h-14 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-xs transition-all duration-300 mt-auto ${
           plan.featured ? "bg-primary text-black hover:scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
         }`}
         onClick={(e) => {
@@ -225,37 +226,39 @@ export default function Pricing() {
   };
 
   return (
-    <section id="planos" className="py-24 md:py-32 bg-black text-white overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section id="planos" className="py-16 md:py-32 bg-black text-white overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6">
         
-        <div className="text-center mb-20 text-white">
-          <motion.h2 
+        <div className="text-center mb-12 md:mb-20 text-white">
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-6xl font-extrabold tracking-tighter mb-6"
+            className="text-3xl md:text-6xl font-extrabold tracking-tighter mb-4 md:mb-6"
           >
             Invista no seu <br />
             <span className="text-white/40 italic font-light">próximo nível.</span>
           </motion.h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto text-lg font-light">
+          <p className="text-zinc-400 max-w-2xl mx-auto text-sm md:text-lg font-light">
             Modelos de negócio flexíveis para acompanhar a evolução da sua empresa.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start mb-24">
+        {/* Grid de Planos Principais - Agora 2x2 no mobile e 4x1 no desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start mb-16 md:mb-24">
           {plans.map((plan) => (
             <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
           ))}
         </div>
 
         {/* Seção de Soluções Avançadas */}
-        <div className="relative pt-20 border-t border-white/5">
-          <div className="text-center mb-12">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-500">Soluções Avançadas</h3>
+        <div className="relative pt-12 md:pt-20 border-t border-white/5">
+          <div className="text-center mb-8 md:mb-12">
+            <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-500">Soluções Avançadas</h3>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
+          {/* Grid de Soluções Avançadas - Agora 2 colunas também no mobile */}
+          <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-start">
             {advancedSolutions.map((plan) => (
               <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
             ))}

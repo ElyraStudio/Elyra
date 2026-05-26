@@ -84,9 +84,9 @@ const advancedSolutions = [
     name: "SaaS Elyra",
     type: "Plataforma Tech",
     description: "Sistema inteligente para gestão de leads e controle comercial.",
-    oldPrice: "R$590",
-    price: "R$450",
-    monthly: "ou R$99 mensais",
+    oldPrice: "R$890",
+    price: "R$750",
+    monthly: "ou R$120 mensais",
     cta: "Testar Plataforma",
     features: [
       "Painel de controle de Leads",
@@ -103,7 +103,7 @@ const advancedSolutions = [
     description: "A experiência e os fluxos da sua marca rodando no piloto automático.",
     oldPrice: "R$990",
     price: "R$750",
-    monthly: "ou R$149 mensais",
+    monthly: "ou R$159 mensais",
     cta: "Implementar Automação",
     features: [
       "Integração do Site com CRMs e Planilhas",

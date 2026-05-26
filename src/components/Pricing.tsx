@@ -131,19 +131,25 @@ interface PlanProps {
   details: string[];
 }
 
-const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (name: string) => void }) => {
-  const [isHovered, setIsHovered] = useState(false);
+interface PricingCardProps {
+  plan: PlanProps;
+  openWhatsapp: (name: string) => void;
+  isHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
+}
 
+const PricingCard = ({ plan, openWhatsapp, isHovered, onHoverStart, onHoverEnd }: PricingCardProps) => {
   return (
     <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
       animate={{
         backgroundColor: isHovered ? "rgba(24, 24, 27, 0.95)" : plan.featured ? "rgba(24, 24, 27, 0.5)" : "rgba(255, 255, 255, 0.02)",
         borderColor: isHovered ? "rgba(255, 255, 255, 0.2)" : plan.featured ? "rgba(var(--primary-rgb), 0.4)" : "rgba(255, 255, 255, 0.05)",
         y: isHovered ? -8 : 0
       }}
-      whileTap={{ scale: 0.98 }} /* Animação suave de clique/toque no mobile */
+      whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       className={`relative p-4 md:p-8 rounded-[24px] md:rounded-[32px] border flex flex-col justify-between cursor-pointer select-none w-full h-full
         ${plan.featured ? "shadow-[0_0_50px_-12px_rgba(var(--primary-rgb),0.3)]" : ""}
@@ -172,8 +178,8 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
           {plan.monthly && <p className="text-[9px] md:text-[10px] text-primary/80 mt-1 md:mt-2 font-bold uppercase tracking-tighter">{plan.monthly}</p>}
         </div>
 
-        <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-          <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+        {/* Correção: Removida a tag <ul> duplicada que estava aqui */}
+       <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
   {plan.features.map((f: any, i: number) => {
     const isText = typeof f === "string";
     const isIncluded = isText || f.included;
@@ -185,8 +191,6 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
     );
   })}
 </ul>
-        
-        </ul>
 
         <motion.div
           style={{ overflow: "hidden" }}
@@ -225,6 +229,10 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
 
 // --- COMPONENTE PRINCIPAL ---
 export default function Pricing() {
+  // Estados isolados para controlar o hover por ID
+  const [hoveredTopPlanId, setHoveredTopPlanId] = useState<string | null>(null);
+  const [hoveredBottomPlanId, setHoveredBottomPlanId] = useState<string | null>(null);
+
   const openWhatsapp = (plan: string) => {
     const phone = "5551996747657";
     const message = `Olá! Gostaria de saber mais sobre o plano ${plan} da Elyra.`;
@@ -250,11 +258,19 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Grid de Planos Principais */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-stretch mb-16 md:mb-24">
+        {/* --- GRID SUPERIOR (4 CARDS) --- */}
+        {/* Mudado de items-stretch para items-start (essencial para não esticar os vizinhos) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start mb-16 md:mb-24">
           {plans.map((plan) => (
-            <div key={plan.id} className="h-full">
-              <PricingCard plan={plan} openWhatsapp={openWhatsapp} />
+            /* Removido o 'h-full' daqui debaixo para a div respeitar apenas o tamanho real do card */
+            <div key={plan.id} className="w-full">
+              <PricingCard 
+                plan={plan} 
+                openWhatsapp={openWhatsapp} 
+                isHovered={hoveredTopPlanId === plan.id}
+                onHoverStart={() => setHoveredTopPlanId(plan.id)}
+                onHoverEnd={() => setHoveredTopPlanId(null)}
+              />
             </div>
           ))}
         </div>
@@ -265,11 +281,19 @@ export default function Pricing() {
             <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-500">Soluções Avançadas</h3>
           </div>
 
-          {/* Grid de Soluções Avançadas */}
-          <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-stretch">
+          {/* --- GRID INFERIOR (2 CARDS) --- */}
+          {/* Mudado de items-stretch para items-start aqui também */}
+          <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-start">
             {advancedSolutions.map((plan) => (
-              <div key={plan.id} className="h-full">
-                <PricingCard plan={plan} openWhatsapp={openWhatsapp} />
+              /* Removido o 'h-full' daqui também */
+              <div key={plan.id} className="w-full">
+                <PricingCard 
+                  plan={plan} 
+                  openWhatsapp={openWhatsapp} 
+                  isHovered={hoveredBottomPlanId === plan.id}
+                  onHoverStart={() => setHoveredBottomPlanId(plan.id)}
+                  onHoverEnd={() => setHoveredBottomPlanId(null)}
+                />
               </div>
             ))}
           </div>

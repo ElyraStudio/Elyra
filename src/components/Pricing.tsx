@@ -77,7 +77,7 @@ const plans = [
   },
 ];
 
-// --- NOVOS PLANOS DEFINITIVOS (CORRIGIDOS COM PREÇOS DA ELYRA) ---
+// --- NOVOS PLANOS DEFINITIVOS ---
 const advancedSolutions = [
   {
     id: "p-saas",
@@ -143,8 +143,9 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
         borderColor: isHovered ? "rgba(255, 255, 255, 0.2)" : plan.featured ? "rgba(var(--primary-rgb), 0.4)" : "rgba(255, 255, 255, 0.05)",
         y: isHovered ? -8 : 0
       }}
+      whileTap={{ scale: 0.98 }} /* Animação suave de clique/toque no mobile */
       transition={{ duration: 0.2, ease: "easeOut" }}
-      className={`relative p-4 md:p-8 rounded-[24px] md:rounded-[32px] border flex flex-col cursor-pointer select-none w-full
+      className={`relative p-4 md:p-8 rounded-[24px] md:rounded-[32px] border flex flex-col justify-between cursor-pointer select-none w-full h-full
         ${plan.featured ? "shadow-[0_0_50px_-12px_rgba(var(--primary-rgb),0.3)]" : ""}
       `}
     >
@@ -156,54 +157,59 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (n
         </div>
       )}
 
-      <div className="mb-4 md:mb-8">
-        <h3 className="text-base md:text-xl font-bold text-white mb-1 break-words">{plan.name}</h3>
-        <p className="text-[9px] md:text-[10px] text-primary font-black uppercase tracking-[0.15em] md:tracking-[0.2em]">{plan.type}</p>
-      </div>
-
-      <div className="mb-6 md:mb-8 h-20 md:h-24 flex flex-col justify-end text-white">
-        {plan.oldPrice && <span className="line-through text-[10px] md:text-xs text-zinc-600 mb-1">{plan.oldPrice}</span>}
-        <div className="flex items-baseline gap-0.5 md:gap-1 flex-wrap">
-          <span className="text-2xl md:text-4xl font-black">{plan.price}</span>
-          {plan.period && <span className="text-xs md:text-sm text-zinc-500 font-light">{plan.period}</span>}
+      <div>
+        <div className="mb-4 md:mb-8">
+          <h3 className="text-base md:text-xl font-bold text-white mb-1 break-words">{plan.name}</h3>
+          <p className="text-[9px] md:text-[10px] text-primary font-black uppercase tracking-[0.15em] md:tracking-[0.2em]">{plan.type}</p>
         </div>
-        {plan.monthly && <p className="text-[9px] md:text-[10px] text-primary/80 mt-1 md:mt-2 font-bold uppercase tracking-tighter">{plan.monthly}</p>}
-      </div>
 
-      <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 flex-grow">
-        {plan.features.map((f: any, i: number) => {
-          const isText = typeof f === "string";
-          const isIncluded = isText || f.included;
-          return (
-            <li key={`feat-${plan.id}-${i}`} className={`flex gap-2 md:gap-3 text-xs md:text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
-              <Check className={`w-3.5 h-3.5 md:w-4 md:h-4 shrink-0 mt-0.5 ${isIncluded ? "text-primary" : "text-zinc-800"}`} />
-              <span className="text-zinc-300 font-light tracking-tight line-clamp-3 md:line-clamp-none">{isText ? f : f.text}</span>
-            </li>
-          );
-        })}
-      </ul>
-
-      <motion.div
-        style={{ overflow: "hidden" }}
-        animate={{
-          height: isHovered ? "auto" : 0,
-          opacity: isHovered ? 1 : 0
-        }}
-        transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="hidden md:block" // Esconde os detalhes dinâmicos no mobile para evitar quebras gigantes de altura na grade 2x2
-      >
-        <div className="pt-6 border-t border-white/5 mb-6">
-          {plan.details.map((d: string, i: number) => (
-            <div key={`det-${plan.id}-${i}`} className="flex gap-2 text-[11px] text-zinc-500 items-center mb-2">
-              <div className="w-1 h-1 rounded-full bg-primary/40" />
-              {d}
-            </div>
-          ))}
+        <div className="mb-6 md:mb-8 h-20 md:h-24 flex flex-col justify-end text-white">
+          {plan.oldPrice && <span className="line-through text-[10px] md:text-xs text-zinc-600 mb-1">{plan.oldPrice}</span>}
+          <div className="flex items-baseline gap-0.5 md:gap-1 flex-wrap">
+            <span className="text-2xl md:text-4xl font-black">{plan.price}</span>
+            {plan.period && <span className="text-xs md:text-sm text-zinc-500 font-light">{plan.period}</span>}
+          </div>
+          {plan.monthly && <p className="text-[9px] md:text-[10px] text-primary/80 mt-1 md:mt-2 font-bold uppercase tracking-tighter">{plan.monthly}</p>}
         </div>
-      </motion.div>
+
+        <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+          <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+  {plan.features.map((f: any, i: number) => {
+    const isText = typeof f === "string";
+    const isIncluded = isText || f.included;
+    return (
+      <li key={`feat-${plan.id}-${i}`} className={`flex gap-2 md:gap-3 text-xs md:text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
+        <Check className={`w-3.5 h-3.5 md:w-4 md:h-4 shrink-0 mt-0.5 ${isIncluded ? "text-primary" : "text-zinc-800"}`} />
+        <span className="text-zinc-300 font-light tracking-tight line-clamp-3 md:line-clamp-none">{isText ? f : f.text}</span>
+      </li> // <-- Corrigido aqui de </td> para </li>
+    );
+  })}
+</ul>
+        
+        </ul>
+
+        <motion.div
+          style={{ overflow: "hidden" }}
+          animate={{
+            height: isHovered ? "auto" : 0,
+            opacity: isHovered ? 1 : 0
+          }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          className="hidden md:block"
+        >
+          <div className="pt-6 border-t border-white/5 mb-6">
+            {plan.details.map((d: string, i: number) => (
+              <div key={`det-${plan.id}-${i}`} className="flex gap-2 text-[11px] text-zinc-500 items-center mb-2">
+                <div className="w-1 h-1 rounded-full bg-primary/40" />
+                {d}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
 
       <Button
-        className={`w-full h-10 md:h-14 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-xs transition-all duration-300 mt-auto ${
+        className={`w-full h-10 md:h-14 px-2 rounded-xl md:rounded-2xl font-black uppercase tracking-widest text-[9px] md:text-xs transition-all duration-300 mt-auto whitespace-normal text-center leading-tight ${
           plan.featured ? "bg-primary text-black hover:scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
         }`}
         onClick={(e) => {
@@ -244,10 +250,12 @@ export default function Pricing() {
           </p>
         </div>
 
-        {/* Grid de Planos Principais - Agora 2x2 no mobile e 4x1 no desktop */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start mb-16 md:mb-24">
+        {/* Grid de Planos Principais */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-stretch mb-16 md:mb-24">
           {plans.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
+            <div key={plan.id} className="h-full">
+              <PricingCard plan={plan} openWhatsapp={openWhatsapp} />
+            </div>
           ))}
         </div>
 
@@ -257,10 +265,12 @@ export default function Pricing() {
             <h3 className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-500">Soluções Avançadas</h3>
           </div>
 
-          {/* Grid de Soluções Avançadas - Agora 2 colunas também no mobile */}
-          <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-start">
+          {/* Grid de Soluções Avançadas */}
+          <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-stretch">
             {advancedSolutions.map((plan) => (
-              <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
+              <div key={plan.id} className="h-full">
+                <PricingCard plan={plan} openWhatsapp={openWhatsapp} />
+              </div>
             ))}
           </div>
         </div>

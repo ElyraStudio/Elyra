@@ -1,15 +1,16 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, Lock } from "lucide-react";
+import { Check } from "lucide-react";
 import { useState } from "react";
 
-// --- DADOS DOS PLANOS ---
+// --- DADOS DOS PLANOS PRINCIPAIS ---
 const plans = [
   {
+    id: "p-starter",
     name: "Aura Starter",
     type: "Modelo Assinatura",
     description: "Presença profissional imediata com baixo investimento.",
-    price: "R$120",
+    price: "R$60",
     period: "/mês",
     cta: "Começar agora",
     features: [
@@ -22,6 +23,7 @@ const plans = [
     details: ["Hospedagem Premium inclusa", "Suporte técnico contínuo", "Atualizações de segurança"],
   },
   {
+    id: "p-one",
     name: "Aura One",
     type: "Propriedade Única",
     description: "Seu site é um ativo permanente do seu negócio.",
@@ -31,13 +33,14 @@ const plans = [
     features: [
       "Site completo profissional",
       "Design de Alta Conversão",
-      "WhatsApp integrado",
+      "WhatsApp integrated",
       { text: "Domínio incluso (1 ano)", included: true },
       { text: "Propriedade total do código", included: true },
     ],
     details: ["Sem mensalidades", "Liberdade total de hospedagem", "Base sólida para escalar"],
   },
   {
+    id: "p-presenca",
     name: "Presença Digital",
     type: "Venda + Estratégia",
     description: "Dominando as buscas locais no Google.",
@@ -56,6 +59,7 @@ const plans = [
     details: ["Atração de clientes orgânicos", "Foco total em vendas", "Consultoria de conversão"],
   },
   {
+    id: "p-crescimento",
     name: "Crescimento Pro",
     type: "Venda + SEO Avançado",
     description: "Autoridade máxima no seu segmento.",
@@ -73,24 +77,75 @@ const plans = [
   },
 ];
 
-const comingSoon = [
-  { name: "SaaS Elyra", desc: "Sistema inteligente para gestão de leads e automação de vendas." },
-  { name: "Elyra Mobile", desc: "A experiência da sua marca direto na palma da mão do cliente." },
+// --- NOVOS PLANOS DEFINITIVOS (CORRIGIDOS COM PREÇOS DA ELYRA) ---
+const advancedSolutions = [
+  {
+    id: "p-saas",
+    name: "SaaS Elyra",
+    type: "Plataforma Tech",
+    description: "Sistema inteligente para gestão de leads e controle comercial.",
+    oldPrice: "R$590",
+    price: "R$450",
+    monthly: "ou R$99 mensais",
+    cta: "Testar Plataforma",
+    features: [
+      "Painel de controle de Leads",
+      "Histórico de interações automático",
+      "Métricas de conversão em tempo real",
+      "Suporte para até 3 usuários",
+    ],
+    details: ["Sem taxa de instalação", "Backup diário na nuvem", "Exportação de relatórios"],
+  },
+  {
+    id: "p-automacao",
+    name: "Elyra Automação",
+    type: "Ecossistema & IA",
+    description: "A experiência e os fluxos da sua marca rodando no piloto automático.",
+    oldPrice: "R$990",
+    price: "R$750",
+    monthly: "ou R$149 mensais",
+    cta: "Implementar Automação",
+    features: [
+      "Integração do Site com CRMs e Planilhas",
+      "Disparos automáticos no WhatsApp",
+      "Notificações de vendas em tempo real",
+      "Suporte prioritário para adjustments",
+    ],
+    details: ["Configuração inicial assistida", "Otimização de processos", "Estabilidade garantida"],
+  },
 ];
 
-// --- COMPONENTE DE CARD ISOLADO ---
-const PricingCard = ({ plan, openWhatsapp }: { plan: any, openWhatsapp: any }) => {
+interface PlanProps {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  price: string;
+  oldPrice?: string;
+  period?: string;
+  monthly?: string;
+  featured?: boolean;
+  badge?: string;
+  cta: string;
+  features: (string | { text: string; included: boolean })[];
+  details: string[];
+}
+
+const PricingCard = ({ plan, openWhatsapp }: { plan: PlanProps; openWhatsapp: (name: string) => void }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className={`relative p-8 rounded-[32px] border transition-all duration-500 flex flex-col cursor-pointer
-        ${plan.featured 
-          ? "bg-zinc-900/50 border-primary/40 shadow-[0_0_50px_-12px_rgba(var(--primary-rgb),0.3)]" 
-          : "bg-white/[0.02] border-white/5"}
-        ${isHovered ? "border-white/20 -translate-y-2 bg-zinc-900/80" : ""}
+    <motion.div
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      animate={{ 
+        backgroundColor: isHovered ? "rgba(24, 24, 27, 0.95)" : plan.featured ? "rgba(24, 24, 27, 0.5)" : "rgba(255, 255, 255, 0.02)",
+        borderColor: isHovered ? "rgba(255, 255, 255, 0.2)" : plan.featured ? "rgba(var(--primary-rgb), 0.4)" : "rgba(255, 255, 255, 0.05)",
+        y: isHovered ? -8 : 0
+      }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className={`relative p-8 rounded-[32px] border flex flex-col cursor-pointer select-none w-full
+        ${plan.featured ? "shadow-[0_0_50px_-12px_rgba(var(--primary-rgb),0.3)]" : ""}
       `}
     >
       {plan.badge && (
@@ -120,7 +175,7 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: any, openWhatsapp: any }) =
           const isText = typeof f === "string";
           const isIncluded = isText || f.included;
           return (
-            <li key={i} className={`flex gap-3 text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
+            <li key={`feat-${plan.id}-${i}`} className={`flex gap-3 text-sm items-start ${!isIncluded ? "opacity-30" : ""}`}>
               <Check className={`w-4 h-4 shrink-0 mt-0.5 ${isIncluded ? "text-primary" : "text-zinc-800"}`} />
               <span className="text-zinc-300 font-light tracking-tight">{isText ? f : f.text}</span>
             </li>
@@ -128,32 +183,26 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: any, openWhatsapp: any }) =
         })}
       </ul>
 
-      {/* Área de expansão controlada individualmente */}
-      <div className="overflow-hidden">
-        <AnimatePresence initial={false}>
-          {isHovered && (
-            <motion.div
-              key="content"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <div className="pt-6 border-t border-white/5 mb-6">
-                {plan.details.map((d: string, i: number) => (
-                  <div key={i} className="flex gap-2 text-[11px] text-zinc-500 items-center mb-2">
-                    <div className="w-1 h-1 rounded-full bg-primary/40" />
-                    {d}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      <motion.div 
+        style={{ overflow: "hidden" }}
+        animate={{ 
+          height: isHovered ? "auto" : 0, 
+          opacity: isHovered ? 1 : 0 
+        }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
+      >
+        <div className="pt-6 border-t border-white/5 mb-6">
+          {plan.details.map((d: string, i: number) => (
+            <div key={`det-${plan.id}-${i}`} className="flex gap-2 text-[11px] text-zinc-500 items-center mb-2">
+              <div className="w-1 h-1 rounded-full bg-primary/40" />
+              {d}
+            </div>
+          ))}
+        </div>
+      </motion.div>
 
       <Button 
-        className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 ${
+        className={`w-full h-14 rounded-2xl font-black uppercase tracking-widest text-xs transition-all duration-300 mt-6 ${
           plan.featured ? "bg-primary text-black hover:scale-[1.02]" : "bg-white/5 text-white hover:bg-white/10"
         }`}
         onClick={(e) => {
@@ -163,12 +212,12 @@ const PricingCard = ({ plan, openWhatsapp }: { plan: any, openWhatsapp: any }) =
       >
         {plan.cta}
       </Button>
-    </div>
+    </motion.div>
   );
 };
 
 // --- COMPONENTE PRINCIPAL ---
-const Pricing = () => {
+export default function Pricing() {
   const openWhatsapp = (plan: string) => {
     const phone = "5551996747657";
     const message = `Olá! Gostaria de saber mais sobre o plano ${plan} da Elyra.`;
@@ -194,44 +243,25 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* items-start impede que os cards estiquem para baixo juntos */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start mb-20">
-          {plans.map((plan, index) => (
-            <PricingCard key={index} plan={plan} openWhatsapp={openWhatsapp} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-start mb-24">
+          {plans.map((plan) => (
+            <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
           ))}
         </div>
 
+        {/* Seção de Soluções Avançadas */}
         <div className="relative pt-20 border-t border-white/5">
           <div className="text-center mb-12">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-600">The Future Ecosystem</h3>
+            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-zinc-500">Soluções Avançadas</h3>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-white">
-            {comingSoon.map((item, idx) => (
-              <div 
-                key={idx}
-                className="group relative p-10 rounded-[32px] border border-white/5 bg-zinc-950/50 overflow-hidden"
-              >
-                <div className="blur-[4px] group-hover:blur-[2px] transition-all duration-1000 opacity-20">
-                  <h4 className="text-2xl font-bold mb-3">{item.name}</h4>
-                  <p className="text-zinc-400 font-light">{item.desc}</p>
-                </div>
-
-                <div className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-[2px] bg-black/40 group-hover:bg-black/20 transition-all duration-700">
-                  <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
-                    <Lock className="w-5 h-5 text-zinc-500" />
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 bg-white text-black rounded-full shadow-xl">
-                    Coming Soon
-                  </span>
-                </div>
-              </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
+            {advancedSolutions.map((plan) => (
+              <PricingCard key={plan.id} plan={plan} openWhatsapp={openWhatsapp} />
             ))}
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Pricing;
+}

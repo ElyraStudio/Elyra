@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
-import previewSalao from "@/assets/preview-salao.png";
-import previewRestaurante from "@/assets/preview-restaurante.png";
-import previewRecarga from "@/assets/preview-recarga.png";
+import previewSalao from "@/assets/preview-salao.webp";
+import previewRestaurante from "@/assets/preview-restaurante.webp";
+import previewRecarga from "@/assets/preview-recarga.webp";
 
 const sites = [
   {
